@@ -1,0 +1,21 @@
+1111111111111
+10010000000C1
+1000011111001
+1P0011E000001
+1111111111111
+
+
+
+
+11111
+1CPE1
+11111
+
+
+
+11111
+1CPE1
+10001   //DANS UN CARRE LA TAILLE D'UNE LIGNE est EGALE A la TAILLE D'une COLONNE
+10001   d'où le théorème de Phaslan : 
+11111	if (col_len == line_len)
+		printf("C'est carré ça");
