@@ -32,9 +32,11 @@ int	input(int keysym, t_data *data)
 	{
 		destroy_assets(data);
 		free_tilemap(data);
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		data->win_ptr = NULL;
 		exit(0);
 	}
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->ground.img, data->sprite.coord.x, data->sprite.coord.y);
+	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->ground.img, data->sprite.coord.x, data->sprite.coord.y);
 	printf("Move count: %d\n", movecount);
 	if (keysym == XK_Down)
 		data->sprite.coord.y += 32;
@@ -44,7 +46,7 @@ int	input(int keysym, t_data *data)
 		data->sprite.coord.x -= 32;
 	else if (keysym == XK_Right)
 		data->sprite.coord.x += 32;
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->sprite.img, data->sprite.coord.x, data->sprite.coord.y);
+	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->sprite.img, data->sprite.coord.x, data->sprite.coord.y);
 	movecount++;
 	return(1);
 }

@@ -55,7 +55,8 @@ char		*av;
 
 int	new_game(int fd, char *av, t_data *data);
 int	win_init(t_data *data);
-int	update(t_data *data);
+int	draw_frame(t_data *data);
+void	img_to_img(t_tile *frame, t_tile *tile, int x, int y);
 int	render(t_data *data);
 void	check_map(int fd, char *av, t_data *data);
 void	*create_sprite(t_data *data, char *path);
