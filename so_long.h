@@ -13,6 +13,15 @@
 # include <mlx.h>
 # include <unistd.h>
 
+typedef enum e_tiletype
+{
+	EMPTY = '0',
+	WALL = '1',
+	COLLECTABLE = 'C',
+	PLAYER = 'P',
+	EXIT = 'E',
+}	t_tiletype;
+
 typedef struct s_vector{
 int x;
 int y;
@@ -58,4 +67,5 @@ size_t	maplen(int fd);
 char	**fill_map(int fd, char *av, t_data *data);
 char	*get_next_line(int fd);
 int	buffer_frame(t_data *data);
+void	free_tilemap(t_data *data);
 # endif

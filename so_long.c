@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:43:10 by chajax            #+#    #+#             */
-/*   Updated: 2021/11/26 21:29:00 by chajax           ###   ########.fr       */
+/*   Updated: 2021/11/28 23:09:53 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ int	main(int ac, char **av)
 		printf("Wrong number of arguments. Did you choose a map? ;)\n");
 		return (1);
 	}
-	render(&data);
 	data.av = av[1];
 	data.fd = open(av[1], O_RDONLY);
 	if (!new_game(data.fd, data.av, &data))
 		return (1);
-	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &input, &data);
-	mlx_loop_hook(data.mlx_ptr, &render, &data);
-	mlx_loop_hook(data.mlx_ptr, &update, &data);
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, input, &data);
+	mlx_loop_hook(data.mlx_ptr, buffer_frame, &data);
 	mlx_loop(data.mlx_ptr);
 }

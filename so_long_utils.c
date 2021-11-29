@@ -31,9 +31,8 @@ int	input(int keysym, t_data *data)
 	if (keysym == XK_Escape)
 	{
 		destroy_assets(data);
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		//free(data->mlx_ptr);
-		//mlx_destroy_display(data->mlx_ptr);
+		free_tilemap(data);
+		exit(0);
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->ground.img, data->sprite.coord.x, data->sprite.coord.y);
 	printf("Move count: %d\n", movecount);
