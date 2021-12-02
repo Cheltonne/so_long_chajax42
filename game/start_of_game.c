@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   start_of_game.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:02:47 by chajax            #+#    #+#             */
-/*   Updated: 2021/11/29 17:14:48 by chajax           ###   ########.fr       */
+/*   Updated: 2021/12/02 16:26:59 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../so_long.h"
 
 int	create_assets(t_data *data)
 {
-	data->sprite.img = create_sprite(data, "./assets/demonrayquaza.xpm");
+	data->sprite.img = create_sprite(data, "./assets/redfront.xpm");
+	data->sprite.addr = mlx_get_data_addr(data->sprite.img, &data->sprite.bpp, &data->sprite.size_line, &data->ground.endian);
 	data->sprite.coord.x = 32;
 	data->sprite.coord.y = 32;
 	data->ground.img = create_sprite(data, "./assets/ground.xpm");
@@ -30,17 +31,6 @@ int	create_assets(t_data *data)
 	return (1);
 }
 
-int	destroy_assets(t_data *data)
-{
-	mlx_destroy_image(data->mlx_ptr, data->sprite.img);
-	mlx_destroy_image(data->mlx_ptr, data->ground.img);
-	mlx_destroy_image(data->mlx_ptr, data->wall.img);
-	mlx_destroy_image(data->mlx_ptr, data->collec.img);
-	mlx_destroy_image(data->mlx_ptr, data->exit.img);
-	mlx_destroy_image(data->mlx_ptr, data->frame.img);
-	return (1);
-}
-
 int	win_init(t_data *data)
 {
 	data->win_ptr = mlx_new_window(data->mlx_ptr, data->win_size.x * 32, data->win_size.y * 32, "so_long alpha build 1.0");
@@ -52,61 +42,50 @@ int	win_init(t_data *data)
 	return (1);
 }
 
-int	draw_frame(t_data *data)
+void	character_init(t_data *data)
 {
-	t_vector	map_pos;
-	t_vector	index;
-
-	index.y = 0;
-	map_pos.y = 0;
-	while(index.y < data->win_size.y)
-	{
-		map_pos.x = 0;
-		index.x = 0;
-		while (data->map[index.y][index.x] != '\n')
-		{
-			if (data->map[index.y][index.x] == WALL)
-				img_to_img(&data->frame, &data->wall, map_pos.x, map_pos.y);
-			else if (data->map[index.y][index.x] == EXIT)
-				img_to_img(&data->frame, &data->exit, map_pos.x, map_pos.y);
-			else if (data->map[index.y][index.x] == EMPTY)
-				img_to_img(&data->frame, &data->ground, map_pos.x, map_pos.y);
-			else if (data->map[index.y][index.x] == COLLECTABLE)
-				img_to_img(&data->frame, &data->collec, map_pos.x, map_pos.y);
-			map_pos.x += 32;
-			index.x += 1;
-		}
-		map_pos.y += 32;
-		index.y += 1;
-	}
-	return (1);
-}
-
-void	img_to_img(t_tile *frame, t_tile *tile, int x, int y)
-{
-	char	*f_pixel;
-	char	*t_pixel;
 	int	i;
-	int	j;
+	int	o;
 
-	i = 0;
-	while (i < 8)
+	o = 0;
+	while (o < data->win_size.y)
 	{
-		j = 0;
-		while (j < 8)
+		i = 0;
+		while (i < data->win_size.x)
 		{
-			f_pixel = frame->addr + (y++ * frame->size_line + x++ * (frame->bpp / 8));
-			t_pixel = tile->addr + (i * tile->size_line + j * (tile->bpp / 8));
-			*f_pixel = *t_pixel;
-			j++;
+			if (data->map[o][i] == 'P')
+			{
+				data->sprite.coord.x = i * 32;
+				data->sprite.coord.y = o * 32;
+			}
+			i++;
 		}
-		i++;
+		o++;
 	}
 }
 
-int	buffer_frame(t_data *data)
+int	new_game(int fd, char *av, t_data *data)
 {
-	draw_frame(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->frame.img, 0, 0);
+	data->mlx_ptr = mlx_init();
+	if (data->mlx_ptr == NULL)
+	{
+		printf("Couldn't initiate X server.");
+		return (0);
+	}
+	check_map(fd, av, data);
+	if(!win_init(data))
+	{
+		printf("Couldn't open window.");
+		return (0);
+	}
+	create_assets(data);
+	data->map = fill_map(fd, av, data);
+	character_init(data);
 	return (1);
 }
+
+void	*create_sprite(t_data *data, char *path)
+{
+	return (mlx_xpm_file_to_image(data->mlx_ptr, path, &data->sprite.width, &data->sprite.height));
+}
+
