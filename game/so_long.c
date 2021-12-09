@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:43:10 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/02 16:26:37 by chajax           ###   ########.fr       */
+/*   Updated: 2021/12/03 17:08:42 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av)
 	data.fd = open(av[1], O_RDONLY);
 	if (!new_game(data.fd, data.av, &data))
 		return (1);
-	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, input, &data);
-	mlx_loop_hook(data.mlx_ptr, buffer_frame, &data);
-	mlx_loop(data.mlx_ptr);
+	mlx_hook(data.win, KeyPress, KeyPressMask, input, &data);
+	mlx_loop_hook(data.mlx, buffer_frame, &data);
+	mlx_loop(data.mlx);
 }

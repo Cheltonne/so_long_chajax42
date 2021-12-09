@@ -6,32 +6,105 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 18:07:10 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/02 16:26:49 by chajax           ###   ########.fr       */
+/*   Updated: 2021/12/05 22:55:07 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
+int	check_collision(int keysym, t_data *data, t_vector *old_pos, int *moves)
+{
+	t_vector 	new_pos;
+
+	if (keysym == XK_Down)
+	{
+		new_pos.y = (old_pos->y + 32) / 32;
+		new_pos.x = (old_pos->x) / 32;
+	}
+	else if (keysym == XK_Up)
+	{
+		new_pos.y = (old_pos->y - 32) / 32;
+		new_pos.x = (old_pos->x) / 32;
+	}
+	else if (keysym == XK_Left)
+	{
+		new_pos.x = (old_pos->x - 32) / 32;
+		new_pos.y = (old_pos->y) / 32;
+	}
+	else if (keysym == XK_Right)
+	{
+		new_pos.x = (old_pos->x + 32) / 32;
+		new_pos.y = (old_pos->y) / 32;
+	}
+	if (data->map[new_pos.y][new_pos.x] == WALL)
+		return (0);
+	*moves += 1;
+	return (1);
+}
+
+void	check_victory(t_data *data)
+{
+	if (data->collectables == 0)
+	{
+		printf("ULTIMATE VICTORY FOR SIOPAO MAGDELEINE\n");
+		end_game(data);
+	}
+}
+
+void	check_collect(int keysym, t_data *data, t_vector *old_pos)
+{
+	t_vector 	new_pos;
+
+	if (keysym == XK_Down)
+	{
+		new_pos.y = (old_pos->y + 32) / 32;
+		new_pos.x = (old_pos->x) / 32;
+	}
+	else if (keysym == XK_Up)
+	{
+		new_pos.y = (old_pos->y - 32) / 32;
+		new_pos.x = (old_pos->x) / 32;
+	}
+	else if (keysym == XK_Left)
+	{
+		new_pos.x = (old_pos->x - 32) / 32;
+		new_pos.y = (old_pos->y) / 32;
+	}
+	else if (keysym == XK_Right)
+	{
+		new_pos.x = (old_pos->x + 32) / 32;
+		new_pos.y = (old_pos->y) / 32;
+	}
+	if (data->map[new_pos.y][new_pos.x] == COLLECTABLE)
+		data->collectables -= 1;
+	else if (data->map[new_pos.y][new_pos.x] == EXIT)
+		check_victory(data);
+}
+
+int	check_movement(int keysym, t_data *data, t_vector *old_pos, int *moves)
+{
+	if (check_collision(keysym, data, old_pos, moves))
+	{
+		check_collect(keysym, data, old_pos);
+		return (1);
+	}
+	return (0);
+}
+
 int	input(int keysym, t_data *data)
 {
-	static int	movecount;
+	static int	moves;
 
 	if (keysym == XK_Escape)
-	{
-		destroy_assets(data);
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		data->win_ptr = NULL;
-		exit(0);
-	}
-	printf("Move count: %d\n", movecount);
-	if (keysym == XK_Down)
+		end_game(data);
+	if (keysym == XK_Down && check_movement(keysym, data, &data->sprite.coord, &moves))
 		data->sprite.coord.y += 32;
-	else if (keysym == XK_Up)
+	else if (keysym == XK_Up && check_movement(keysym, data, &data->sprite.coord, &moves))
 		data->sprite.coord.y -= 32;
-	else if (keysym == XK_Left)
+	else if (keysym == XK_Left && check_movement(keysym, data, &data->sprite.coord, &moves))
 		data->sprite.coord.x -= 32;
-	else if (keysym == XK_Right)
+	else if (keysym == XK_Right && check_movement(keysym, data, &data->sprite.coord, &moves))
 		data->sprite.coord.x += 32;
-	movecount++;
+	printf("%d move(s) made.\n", moves);
 	return(1);
 }

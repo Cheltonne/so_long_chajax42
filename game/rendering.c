@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 16:21:38 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/02 16:26:02 by chajax           ###   ########.fr       */
+/*   Updated: 2021/12/04 21:58:10 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	img_to_img(t_tile *frame, t_tile *tile, int x, int y)
 
 int	buffer_frame(t_data *data)
 {
-	mlx_clear_window(data->mlx_ptr, data->win_ptr);
+	mlx_clear_window(data->mlx, data->win);
 	draw_frame(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->frame.img, 0, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 	return (1);
 }
 

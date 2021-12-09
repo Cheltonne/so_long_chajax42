@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 16:25:47 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/02 16:25:52 by chajax           ###   ########.fr       */
+/*   Updated: 2021/12/05 20:01:14 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t one_strlen(int fd)
 	while (buf[i++] != '\n')
 		;
 	close(fd);
-return (i - 1);
+	return (i - 1);
 }
 
 size_t line_count(int fd)
@@ -47,7 +47,22 @@ size_t line_count(int fd)
 
 void	check_map(int fd, char *av,  t_data *data)
 {
+	char 	*buf;
+	size_t	i;
+
+	i = 0;
+	buf = calloc(10000, 1); // NE PAS OUBLIER DE REMPLACER PAR FT_CALLOC!!!!!!!!
 	data->win_size.y = line_count(fd);
+	fd = open(av, O_RDONLY);
+	read(fd, buf, 10000);
+	while (buf[i])
+	{
+		if (buf[i] == COLLECTABLE)
+			data->collectables += 1;
+		i++;
+	}
+	free(buf);
+	close(fd);
 	fd = open(av, O_RDONLY);
 	data->win_size.x = one_strlen(fd);
 }
