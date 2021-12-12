@@ -12,7 +12,7 @@
 
 #include "../so_long.h"
 
-int	check_collision(int keysym, t_data *data, t_vector *old_pos, int *moves)
+int	move_is_valid(int keysym, t_data *data, t_vector *old_pos, int *moves)
 {
 	t_vector 	new_pos;
 
@@ -51,7 +51,7 @@ void	check_victory(t_data *data)
 	}
 }
 
-void	check_collect(int keysym, t_data *data, t_vector *old_pos)
+void	check_interaction(int keysym, t_data *data, t_vector *old_pos)
 {
 	t_vector 	new_pos;
 
@@ -76,16 +76,19 @@ void	check_collect(int keysym, t_data *data, t_vector *old_pos)
 		new_pos.y = (old_pos->y) / 32;
 	}
 	if (data->map[new_pos.y][new_pos.x] == COLLECTABLE)
+	{
 		data->collectables -= 1;
+		redraw_bitmap(data, &new_pos, '0');
+	}
 	else if (data->map[new_pos.y][new_pos.x] == EXIT)
 		check_victory(data);
 }
 
 int	check_movement(int keysym, t_data *data, t_vector *old_pos, int *moves)
 {
-	if (check_collision(keysym, data, old_pos, moves))
+	if (move_is_valid(keysym, data, old_pos, moves))
 	{
-		check_collect(keysym, data, old_pos);
+		check_interaction(keysym, data, old_pos);
 		return (1);
 	}
 	return (0);

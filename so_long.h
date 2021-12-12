@@ -79,4 +79,5 @@ int	destroy_assets(t_data *data);
 void	end_game(t_data *data);
 char	*get_next_line(int fd);
 char	*ft_itoa(int nb);
+void	redraw_bitmap(t_data *data, t_vector *pos, char new_value);
 #endif

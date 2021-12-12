@@ -77,3 +77,28 @@ int	buffer_frame(t_data *data)
 	return (1);
 }
 
+void	redraw_bitmap(t_data *data, t_vector *pos, char new_value)
+{
+	int x;
+	int y;
+	char **ret;
+	char **bitmap;
+
+	bitmap = data->map;
+	ret = malloc((data->win_size.x + 1) * data->win_size.y + 1);
+	y = 0;
+	while (y < data->win_size.y)
+	{
+		x = 0;
+		while (x < data->win_size.x)
+		{
+			if (x == pos->x && y == pos->y)
+				ret[y][x++] = new_value;
+			else
+				ret[y][x] = bitmap[y][x++];
+		}
+		y++;
+	}
+	free(bitmap);
+	data->map = ret;
+}
