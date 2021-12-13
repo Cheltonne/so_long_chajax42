@@ -73,8 +73,7 @@ char **fill_map(int fd, char *av, t_data *data)
 	char	**map;
 
 	j = 0;
-	fd = open(av, O_RDONLY);
-	map = malloc(sizeof(char) * data->win_size.y * data->win_size.x);
+	map = malloc(sizeof(char) * (data->win_size.y * (data->win_size.x + 1)) + 1);
 	if (!map)
 		return (NULL);
 	fd = open(av, O_RDONLY);

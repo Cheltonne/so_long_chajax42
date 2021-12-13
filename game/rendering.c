@@ -38,8 +38,8 @@ int	draw_frame(t_data *data)
 		}
 		map_pos.y += 32;
 		index.y += 1;
-		img_to_img(&data->frame, &data->sprite, data->sprite.coord.x, data->sprite.coord.y);
 	}
+		img_to_img(&data->frame, &data->sprite, data->sprite.coord.x, data->sprite.coord.y);
 	return (1);
 }
 
@@ -75,30 +75,4 @@ int	buffer_frame(t_data *data)
 	draw_frame(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 	return (1);
-}
-
-void	redraw_bitmap(t_data *data, t_vector *pos, char new_value)
-{
-	int x;
-	int y;
-	char **ret;
-	char **bitmap;
-
-	bitmap = data->map;
-	ret = malloc((data->win_size.x + 1) * data->win_size.y + 1);
-	y = 0;
-	while (y < data->win_size.y)
-	{
-		x = 0;
-		while (x < data->win_size.x)
-		{
-			if (x == pos->x && y == pos->y)
-				ret[y][x++] = new_value;
-			else
-				ret[y][x] = bitmap[y][x++];
-		}
-		y++;
-	}
-	free(bitmap);
-	data->map = ret;
 }

@@ -78,7 +78,7 @@ void	check_interaction(int keysym, t_data *data, t_vector *old_pos)
 	if (data->map[new_pos.y][new_pos.x] == COLLECTABLE)
 	{
 		data->collectables -= 1;
-		redraw_bitmap(data, &new_pos, '0');
+		data->map[new_pos.y][new_pos.x] = EMPTY;
 	}
 	else if (data->map[new_pos.y][new_pos.x] == EXIT)
 		check_victory(data);
