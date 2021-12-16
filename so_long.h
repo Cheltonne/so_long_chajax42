@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 22:56:08 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/05 23:30:23 by chajax           ###   ########.fr       */
+/*   Updated: 2021/12/16 01:51:44 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,53 +31,80 @@ typedef enum e_tiletype{
 	EXIT = 'E',
 }	t_tiletype;
 
+typedef enum e_direction{
+	UP = 'u',
+	DOWN = 'd',
+	RIGHT = 'r',
+	LEFT = 'l',
+}	t_direction;
+
+enum e_keycode
+{
+	KEY_UP = 0x77,
+	KEY_DOWN = 0x73,
+	KEY_LEFT = 0x61,
+	KEY_RIGHT = 0x64,
+};
+
 typedef struct s_vector{
-int	x;
-int	y;
+	int	x;
+	int	y;
 }	t_vector;
 
 typedef struct s_tile{
-void		*img;
-t_vector	coord;
-int		width;
-int		height;
-char		*addr;
-int		bpp;
-int		size_line;
-int		endian;
+	void		*img;
+	t_vector	coord;
+	int			width;
+	int			height;
+	char		*addr;
+	int			bpp;
+	int			size_line;
+	int			endian;
 }	t_tile;
 
 typedef struct s_data{
-void		*mlx;
-void		*win;
-char		**map;
-t_vector	win_size;
-unsigned int	collectables;
-t_tile		frame;
-t_tile		sprite;
-t_tile		ground;
-t_tile		wall;
-t_tile		collec;
-t_tile		exit;
-int		fd;
-char		*av;
+	void			*mlx;
+	void			*win;
+	char			**map;
+	t_vector		win_size;
+	unsigned int	collectables;
+	t_tile			frame;
+	t_tile			player;
+	t_tile			front;
+	t_tile			back;
+	t_tile			rightt;
+	t_tile			leftt;
+	t_tile			ground;
+	t_tile			wall;
+	t_tile			collec;
+	t_tile			exit;
+	int				fd;
+	char			*av;
 }	t_data;
 
-int	new_game(int fd, char *av, t_data *data);
+int		new_game(int fd, char *av, t_data *data);
 void	check_map(int fd, char *av, t_data *data);
+int		walls_are_valid(t_data *data);
+int		shape_is_valid(t_data *data);
+int		validate_map(t_data *data);
 size_t	one_strlen(int fd);
 size_t	maplen(int fd);
 char	**fill_map(int fd, char *av, t_data *data);
-void	*create_sprite(t_data *data, char *path);
-int	create_assets(t_data *data);
-int	win_init(t_data *data);
+void	*create_sprite(t_data *data, t_tile *tile, char *path);
+int		create_assets(t_data *data);
+int		win_init(t_data *data);
 void	img_to_img(t_tile *frame, t_tile *tile, int x, int y);
-int	draw_frame(t_data *data);
-int	buffer_frame(t_data *data);
-int	input(int keysym, t_data *data);
-int	destroy_assets(t_data *data);
+int		draw_frame(t_data *data);
+int		buffer_frame(t_data *data);
+int		input(int keysym, t_data *data);
+void	process_move(char direction, t_data *data);
+void	change_coordinates(t_vector *old_pos,
+			t_vector *new_pos, char op, char order);
+int		destroy_assets(t_data *data);
 void	end_game(t_data *data);
 char	*get_next_line(int fd);
-char	*ft_itoa(int nb);
-void	redraw_bitmap(t_data *data, t_vector *pos, char new_value);
+size_t	ft_strlen(const char *str);
+char	*ft_strchr(const char *s, int c);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t nmemb, size_t size);
 #endif
