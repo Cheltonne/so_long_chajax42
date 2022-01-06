@@ -30,6 +30,7 @@ OBJS =	$(addprefix $(GAME_DIR), $(addsuffix .o, $(GAME_FILES))) \
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(NAME): $(OBJS)
+	make -C minilibx-linux
 	$(CC) $(CFLAGS) -o $@ $^ $(FLAGS)
 
 all: $(NAME)
