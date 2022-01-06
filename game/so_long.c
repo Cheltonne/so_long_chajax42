@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:43:10 by chajax            #+#    #+#             */
-/*   Updated: 2022/01/05 22:04:57 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/06 19:01:46 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ int	main(int ac, char **av)
 	mlx_hook(data.win, DestroyNotify, KeyPressMask, end_game, &data);
 	mlx_loop_hook(data.mlx, buffer_frame, &data);
 	mlx_loop(data.mlx);
+    end_game(&data);
+    return(1);
 }

@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 18:07:10 by chajax            #+#    #+#             */
-/*   Updated: 2022/01/05 22:04:08 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/06 18:56:49 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ int	input(int keysym, t_data *data)
 	static int	moves;
 
 	if (keysym == XK_Escape)
-		end_game(data);
+    {
+		mlx_loop_end(data->mlx);
+        return(1);
+    }
 	if ((keysym == KEY_DOWN || keysym == XK_Down) && check_movement(keysym,
 			data, &data->player.coord, &moves))
 		process_move(DOWN, data);

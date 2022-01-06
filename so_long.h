@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 22:56:08 by chajax            #+#    #+#             */
-/*   Updated: 2022/01/05 22:07:37 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/06 19:20:59 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int		input(int keysym, t_data *data);
 void	process_move(char direction, t_data *data);
 void	change_coordinates(t_vector *old_pos,
 			t_vector *new_pos, char op, char order);
-int		destroy_assets(t_data *data);
-int	end_game(t_data *data);
+int     destroy_assets(t_data *data);
+int     end_game(t_data *data);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
