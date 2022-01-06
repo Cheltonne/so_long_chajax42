@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 22:56:33 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/16 00:11:36 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/05 22:06:13 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ int	destroy_assets(t_data *data)
 	return (1);
 }
 
-void	end_game(t_data *data)
+int	end_game(t_data *data)
 {
 	destroy_assets(data);
 	mlx_destroy_window(data->mlx, data->win);
 	data->win = NULL;
 	exit(0);
+	return (1);
 }

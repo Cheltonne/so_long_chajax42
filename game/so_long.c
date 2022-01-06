@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:43:10 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/03 17:08:42 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/05 22:04:57 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int ac, char **av)
 	if (!new_game(data.fd, data.av, &data))
 		return (1);
 	mlx_hook(data.win, KeyPress, KeyPressMask, input, &data);
+	mlx_hook(data.win, DestroyNotify, KeyPressMask, end_game, &data);
 	mlx_loop_hook(data.mlx, buffer_frame, &data);
 	mlx_loop(data.mlx);
 }

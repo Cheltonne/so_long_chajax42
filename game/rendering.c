@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 16:21:38 by chajax            #+#    #+#             */
-/*   Updated: 2021/12/16 00:24:58 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/05 21:10:52 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	draw_frame(t_data *data)
 				img_to_img(&data->frame, &data->collec, i.x * 32, i.y * 32);
 			i.x += 1;
 		}
-			i.y += 1;
+		i.y += 1;
 	}
 	img_to_img(&data->frame, &data->player, data->player.coord.x,
 		data->player.coord.y);
@@ -69,7 +69,6 @@ int	draw_frame(t_data *data)
 
 int	buffer_frame(t_data *data)
 {
-	mlx_clear_window(data->mlx, data->win);
 	draw_frame(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 	return (1);
