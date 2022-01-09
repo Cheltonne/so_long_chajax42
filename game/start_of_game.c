@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:02:47 by chajax            #+#    #+#             */
-/*   Updated: 2022/01/09 22:10:02 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/09 23:03:13 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*create_sprite(t_data *data, t_tile *tile, char *path)
 			&size, &size);
 	if (!new_asset)
 	{
-		printf("Couldn't create asset: %s\n.", path);
+		printf("Error\nCouldn't create asset: %s\n.", path);
 		return ((void *)0);
 	}
 	tile->addr = mlx_get_data_addr
@@ -106,11 +106,13 @@ int	new_game(int fd, char *av, t_data *data)
 	}
 	create_assets(data);
 	data->map = fill_map(fd, av, data);
-	if (!validate_map(data))
+	if (data->fd < 0 || !check_ext(data))
 	{
-		printf("Error\nThe map is not valid. :o\n");
 		mlx_loop_end(data->mlx);
+		return (0);
 	}
+	if (!validate_map(data))
+		mlx_loop_end(data->mlx);
 	character_init(data);
 	return (1);
 }

@@ -9,6 +9,7 @@ GAME_FILES = end_of_game \
 	     libft_functions \
 	     parser \
 	     parser2 \
+	     parser3 \
 	     rendering \
 	     so_long \
 	     so_long_utils \

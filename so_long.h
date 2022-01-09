@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 22:56:08 by chajax            #+#    #+#             */
-/*   Updated: 2022/01/06 19:20:59 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/09 23:09:58 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ typedef struct s_data{
 }	t_data;
 
 int		new_game(int fd, char *av, t_data *data);
+void	error_handling(char *message);
 void	check_map(int fd, char *av, t_data *data);
 int		walls_are_valid(t_data *data);
 int		shape_is_valid(t_data *data);
+int		check_ext(t_data *data);
 int		validate_map(t_data *data);
 size_t	one_strlen(int fd);
 size_t	maplen(int fd);
