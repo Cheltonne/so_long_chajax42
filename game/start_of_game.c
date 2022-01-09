@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:02:47 by chajax            #+#    #+#             */
-/*   Updated: 2022/01/06 19:21:05 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/09 22:10:02 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,21 @@ int	new_game(int fd, char *av, t_data *data)
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 	{
-		printf("Couldn't initiate X server.");
+		printf("Error\nCouldn't initiate X server.");
 		return (0);
 	}
 	data->collectables = 0;
 	check_map(fd, av, data);
 	if (!win_init(data))
 	{
-		printf("Couldn't open window.");
+		printf("Error\nCouldn't open window.");
 		return (0);
 	}
 	create_assets(data);
 	data->map = fill_map(fd, av, data);
 	if (!validate_map(data))
 	{
-		printf("Error: The map is not valid. :o\n");
+		printf("Error\nThe map is not valid. :o\n");
 		mlx_loop_end(data->mlx);
 	}
 	character_init(data);
