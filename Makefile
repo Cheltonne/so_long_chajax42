@@ -43,6 +43,9 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 
+norminette: $(GAME_SRCS)
+	norminette $(GAME_SRCS) $(GNL_DIR)get_next_line.h so_long.h
+
 re: clean all
 
 .PHONY: bonus all clean fclean re

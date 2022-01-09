@@ -6,7 +6,7 @@
 /*   By: chajax <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:02:47 by chajax            #+#    #+#             */
-/*   Updated: 2022/01/09 23:03:13 by chajax           ###   ########.fr       */
+/*   Updated: 2022/01/09 23:28:01 by chajax           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	new_game(int fd, char *av, t_data *data)
 		return (0);
 	}
 	if (!validate_map(data))
-		mlx_loop_end(data->mlx);
+		return (0);
 	character_init(data);
 	return (1);
 }
