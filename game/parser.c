@@ -15,30 +15,35 @@
 size_t	one_strlen(int fd)
 {
 	size_t	i;
-	char	buf[10000];
+	char	*buf;
 
 	i = 0;
-	read(fd, buf, 10000);
-	while (buf[i++] != '\n')
-		;
+	buf = calloc(1, 1);
+	while (read(fd, buf, 1))
+	{
+		if (buf[0] == '\n')
+		{
+			close(fd);
+			free(buf);
+			return (i);
+		}
+		i++;
+	}
 	close(fd);
-	return (i - 1);
+	free(buf);
+	return (i);
 }
 
 size_t	line_count(int fd)
 {
-	size_t	i;
 	size_t	j;
 	char	*buf;
 
-	buf = ft_calloc(10000, 1);
-	i = 0;
 	j = 0;
-	while (read(fd, buf, 10000))
-		;
-	while (buf[i])
+	buf = ft_calloc(1, 1);
+	while (read(fd, buf, 1))
 	{
-		if (buf[i++] == '\n')
+		if (buf[0] == '\n')
 			j++;
 	}
 	close(fd);
@@ -49,18 +54,14 @@ size_t	line_count(int fd)
 void	check_map(int fd, char *av, t_data *data)
 {
 	char	*buf;
-	size_t	i;
 
-	i = 0;
-	buf = ft_calloc(10000, 1);
+	buf = ft_calloc(1, 1);
 	data->win_size.y = line_count(fd);
 	fd = open(av, O_RDONLY);
-	read(fd, buf, 10000);
-	while (buf[i])
+	while (read(fd, buf, 1))
 	{
-		if (buf[i] == COLLECTABLE)
+		if (buf[0] == COLLECTABLE)
 			data->collectables += 1;
-		i++;
 	}
 	free(buf);
 	close(fd);

@@ -12,7 +12,7 @@
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 10000
 # include <stdlib.h>
 # include <stdio.h>
 # include <X11/keysym.h>
@@ -66,6 +66,7 @@ typedef struct s_data{
 	void			*mlx;
 	void			*win;
 	char			**map;
+	char			**to_free;
 	t_vector		win_size;
 	unsigned int	collectables;
 	t_tile			frame;
@@ -100,11 +101,12 @@ int		input(int keysym, t_data *data);
 void	process_move(char direction, t_data *data);
 void	change_coordinates(t_vector *old_pos,
 			t_vector *new_pos, char op, char order);
-int     destroy_assets(t_data *data);
-int     end_game(t_data *data);
-char	*get_next_line(int fd);
+int		destroy_assets(t_data *data);
+int		end_game(t_data *data);
+char	*get_next_line(int fd, int free);
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
+int		has_return(char *str);
 #endif

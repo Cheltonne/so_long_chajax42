@@ -45,13 +45,14 @@ char	**fill_map(int fd, char *av, t_data *data)
 	char	**map;
 
 	j = 0;
-	map = malloc(sizeof(char)
-			* (data->win_size.y * (data->win_size.x + 1)) + 1);
+	map = malloc(sizeof(char *)
+			* data->win_size.y);
+	data->to_free = map;
 	if (!map)
 		return (NULL);
 	fd = open(av, O_RDONLY);
 	while (j < data->win_size.y)
-		map[j++] = get_next_line(fd);
+		map[j++] = get_next_line(fd, 0);
 	close(fd);
 	return (map);
 }

@@ -109,7 +109,7 @@ int	new_game(int fd, char *av, t_data *data)
 	if (!validate_map(data))
 	{
 		printf("Error: The map is not valid. :o\n");
-		return (0);
+		mlx_loop_end(data->mlx);
 	}
 	character_init(data);
 	return (1);

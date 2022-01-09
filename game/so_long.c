@@ -26,9 +26,9 @@ int	main(int ac, char **av)
 	if (!new_game(data.fd, data.av, &data))
 		return (1);
 	mlx_hook(data.win, KeyPress, KeyPressMask, input, &data);
-	mlx_hook(data.win, DestroyNotify, KeyPressMask, end_game, &data);
+	mlx_hook(data.win, DestroyNotify, KeyPressMask, &mlx_loop_end, data.mlx);
 	mlx_loop_hook(data.mlx, buffer_frame, &data);
 	mlx_loop(data.mlx);
-    end_game(&data);
-    return(1);
+	end_game(&data);
+	return (1);
 }

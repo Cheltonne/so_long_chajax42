@@ -17,6 +17,7 @@ GAME_FILES = end_of_game \
 
 GNL_FILES = get_next_line \
 	    get_next_line_utils \
+	    get_next_line_utils2 \
 
 GAME_DIR = game/
 GNL_DIR = get_next_line/

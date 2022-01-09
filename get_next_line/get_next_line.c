@@ -3,109 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chajax <chajax@student.42.fr>              +#+  +:+       +#+        */
+/*   By: phaslan <phaslan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/07 13:52:06 by chajax            #+#    #+#             */
-/*   Updated: 2021/09/30 10:28:40 by chajax           ###   ########.fr       */
+/*   Created: 2021/12/25 16:15:33 by phaslan           #+#    #+#             */
+/*   Updated: 2021/12/25 17:15:46 by phaslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "../so_long.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*next_str(char *str)
 {
-	int		i;
-	int		o;
-	int		total_len;
-	char	*new;
+	char	*ret;
+	size_t	i;
+	size_t	x;
 
 	i = 0;
-	o = 0;
-	total_len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	new = malloc(sizeof(char) * total_len);
-	if (!new)
-		return (NULL);
-	if (s1)
-	{
-		while (s1[i])
-			new[o++] = s1[i++];
-		free(s1);
-	}
-	i = 0;
-	if (s2)
-	{
-		while (s2[i])
-			new[o++] = s2[i++];
-		new[o] = '\0';
-	}
-	return (new);
-}
-
-void	free_exp(char	**str)
-{
-	if (!*str)
-		return ;
-	free(*str);
-	*str = NULL;
-}
-
-char	*check_eof(char *local, char **export, char *buf)
-{
-	free(buf);
-	if (*export)
-	{
-		if (**export != '\0')
-		{
-			local = ft_strjoin(local, *export);
-			free_exp(export);
-			return (local);
-		}
-	}
-	free_exp(export);
-	return (NULL);
-}
-
-int	find_backline(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (-1);
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			return (i);
+	x = 0;
+	while (str[i] != '\0' && str[i] != '\n' )
 		i++;
+	if (str[i] == '\0')
+	{
+		free(str);
+		return (NULL);
 	}
-	return (-1);
+	ret = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!ret)
+		return (NULL);
+	while (str[i++] != '\0')
+	{
+		ret[x] = str[i];
+		x++;
+	}
+	ret[x] = '\0';
+	free (str);
+	return (ret);
 }
 
-char	*get_next_line(int fd)
+char	*redline(int fd, char *str)
 {
-	int				ret;
-	char			*buf;
-	char			*local;
-	static char		*export[1024];
+	int		count;
+	char	*buff;
 
-	if (fd < 0 || BUFFER_SIZE < 1 || !&export[fd])
+	count = 1;
+	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buff)
 		return (NULL);
-	local = NULL;
-	buf = malloc(BUFFER_SIZE + 1);
-	if (!buf)
-		return (NULL);
-	while (find_backline(export[fd]) == -1)
+	while (!(has_return(str)) && count > 0)
 	{
-		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret < 1)
-			return (check_eof(local, &export[fd], buf));
-		buf[ret] = '\0';
-		export[fd] = ft_strjoin(export[fd], buf);
+		count = read(fd, buff, BUFFER_SIZE);
+		if (count == -1)
+			break ;
+		buff[count] = '\0';
+		str = ft_strjoin(str, buff);
 	}
-	local = ft_substr(export[fd], 0, find_backline(export[fd]) + 1);
-	export[fd] = ft_substr(export[fd], find_backline(export[fd]) + 1,
-			ft_strlen(export[fd]) - find_backline(export[fd]));
-	free(buf);
-	return (local);
+	free (buff);
+	return (str);
+}
+
+char	*get_next_line(int fd, int last)
+{
+	static char	*str;
+	char		*ret;
+
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return (NULL);
+	if (last)
+	{
+		free(str);
+		return (NULL);
+	}
+	if (!str)
+	{
+		str = malloc(sizeof(char) * 1);
+		if (!str)
+			return (NULL);
+		str[0] = '\0';
+	}
+	str = redline(fd, str);
+	if (!str)
+		return (NULL);
+	ret = last_line(str);
+	str = next_str(str);
+	return (ret);
 }

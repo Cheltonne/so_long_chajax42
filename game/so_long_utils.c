@@ -35,7 +35,7 @@ void	check_victory(t_data *data)
 	if (data->collectables == 0)
 	{
 		printf("ULTIMATE VICTORY FOR SIOPAO MAGDELEINE\n");
-		end_game(data);
+		mlx_loop_end(data->mlx);
 	}
 }
 
@@ -77,10 +77,10 @@ int	input(int keysym, t_data *data)
 	static int	moves;
 
 	if (keysym == XK_Escape)
-    {
+	{
 		mlx_loop_end(data->mlx);
-        return(1);
-    }
+		return (1);
+	}
 	if ((keysym == KEY_DOWN || keysym == XK_Down) && check_movement(keysym,
 			data, &data->player.coord, &moves))
 		process_move(DOWN, data);

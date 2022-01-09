@@ -3,25 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chajax <chajax@student.42.fr>              +#+  +:+       +#+        */
+/*   By: phaslan <phaslan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/07 13:48:54 by chajax            #+#    #+#             */
-/*   Updated: 2021/09/30 11:02:49 by chajax           ###   ########.fr       */
+/*   Created: 2021/12/25 16:26:46 by phaslan           #+#    #+#             */
+/*   Updated: 2021/12/25 16:31:04 by phaslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# include <unistd.h>
-# include <stdlib.h>
 
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t nmemb, size_t size);
-size_t	ft_strlen(const char *str);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+# include <unistd.h>
+# include <sys/types.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include "../so_long.h"
+
+char	*get_next_line(int fd, int free);
+size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, char *s2);
-char	*get_next_line(int fd);
-int		find_backline(char *str);
-void	free_exp(char **str);
+int		has_return(char *str);
+char	*last_line(char *str);
+
 #endif
